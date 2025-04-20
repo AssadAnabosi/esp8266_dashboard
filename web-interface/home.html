@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=0.8, minimal-ui"
+    />
+    <meta name="theme-color" content="#0C0A09" />
+
+    <meta name="description" content="ESP8266 Wi-Fi Manager Dashboard" />
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="js/site.js"></script>
+    <script src="js/home.js"></script>
+  </head>
+
+  <body onload="checkConnection()">
+    <nav>
+      <ul class="menu">
+        <li><a href="home">Home</a></li>
+        <li><a href="scan">Scan</a></li>
+        <li><a href="settings">Settings</a></li>
+      </ul>
+    </nav>
+
+    <div id="status"></div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="header">Status</h1>
+          <div id="status-container" class="cards-container"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
