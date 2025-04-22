@@ -131,6 +131,7 @@ function save() {
         ap_channel: getE("ap_channel").value,
         ap_hidden: getE("ap_hidden").checked,
         ap_status: getE("ap_status").checked,
+        hostname: getE("hostname").value,
       };
       apiCall({
         route: "/api/settings",

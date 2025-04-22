@@ -177,6 +177,7 @@ void WebServerManager::handleGetSettings()
   doc["ap_channel"] = ConfigStorage::readAPChannel();
   doc["ap_hidden"] = ConfigStorage::readAPHidden();
   doc["ap_status"] = ConfigStorage::readAPStatus();
+  doc["hostname"] = ConfigStorage::readHostname();
 
   sendJson(doc);
 }
@@ -209,6 +210,8 @@ void WebServerManager::handlePostSettings()
     missingFields += "ap_hidden, ";
   if (!doc.containsKey("ap_status"))
     missingFields += "ap_status, ";
+  if (!doc.containsKey("hostname"))
+    missingFields += "hostname, ";
 
   if (!missingFields.isEmpty())
   {
