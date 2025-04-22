@@ -18,16 +18,7 @@ public:
     WebServerManager();
 
     /**
-     * @brief Initializes the web server and sets up the endpoints. Including the following:
-     * - All Static files (HTML, CSS, JS) are served from SPIFFS.
-     * - /api/health: Check device health (to see if the device is alive/connected)
-     * - /api/status: Get device status (including current connections and MACs and IPs)
-     * - /api/scan: Scan for available WiFi networks
-     * - /api/connect: Connect to a WiFi network
-     * - /api/disconnect: Disconnect from WiFi
-     * - /api/settings: Get or update device settings
-     * - /api/reboot: Reboot the device
-     * - /api/reset: Reset the device to factory settings
+     * @brief Initializes the web server and sets up the endpoints.
      */
     void begin();
 
@@ -37,17 +28,17 @@ public:
     void handleClient();
 
     /**
-     * @brief Handles a request to check device health.
+     * @brief  Sends back OK response indicating the server is running.
      */
     void handleHealth();
 
     /**
-     * @brief Handles a request to fetch the device's current connections status, mac addresses ips.
+     * @brief JSON response of current connections status, and ips.
      */
     void handleStatus();
 
     /**
-     * @brief Handles a request to scan for available WiFi networks.
+     * @brief Scan for available WiFi networks and returns the JSON response.
      */
     void handleScan();
 
@@ -62,7 +53,7 @@ public:
     void handleDisconnect();
 
     /**
-     * @brief Handles a request to retrieve current device settings.
+     * @brief JSON response of current device settings.
      */
     void handleGetSettings();
 
