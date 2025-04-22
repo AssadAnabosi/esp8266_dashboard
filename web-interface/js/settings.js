@@ -24,6 +24,11 @@ var settingsDescJson = {
     description:
       "Enables the access point that is used for the web interface (if enabled).",
   },
+  hostname: {
+    label: "Hostname",
+    description:
+      "Hostname of the device. This is used to identify the device on the network.",
+  },
 };
 
 function load() {
