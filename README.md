@@ -1,6 +1,7 @@
 # ESP8266 Wi-Fi Manager Dashboard
 
 This project provides a simple web interface for the ESP8266, designed as a boilerplate to help you quickly get started with your IoT projects.
+Allowing the user to connect it to the ESP and configure what network to connect to.
 
 ## Features
 
