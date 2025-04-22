@@ -36,7 +36,7 @@ bool WiFiManager::autoConnect()
     return false;
   }
 
-  Serial.println("Attempting to Auto Connect to " + ssid);
+  Serial.println("Attempting to Auto Connect to " + ssid + "...");
   WiFi.hostname(hostname);
   WiFi.begin(ssid.c_str(), password.c_str());
 

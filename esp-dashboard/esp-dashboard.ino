@@ -18,6 +18,7 @@ void setup()
   // Initialize WiFiManager and attempt to connect to WiFi
   if (wifiManager.autoConnect())
   {
+    Serial.println("Auto connected to WiFi Network");
     Serial.println("STA IP address: ");
     Serial.println(WiFi.localIP());
   }
