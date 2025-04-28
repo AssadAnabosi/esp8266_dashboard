@@ -1,4 +1,7 @@
-var connections_status = {};
+var connections_status = {
+  softAP: { enabled: false, ssid: "", ip: "" },
+  station: { connected: false, ssid: "", ip: "" },
+};
 
 const wifiIcon =
   "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='icon icon-true'><path d='M12 20h.01'></path><path d='M2 8.82a15 15 0 0 1 20 0'></path><path d='M5 12.859a10 10 0 0 1 14 0'></path><path d='M8.5 16.429a5 5 0 0 1 7 0'></path></svg>";
@@ -87,6 +90,7 @@ function drawConnectionsStatus() {
 }
 
 function getConnectionsStatus() {
+  drawConnectionsStatus(); // draw empty status first
   apiCall({
     route: "/api/status",
     callback: function (res) {

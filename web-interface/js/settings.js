@@ -61,7 +61,7 @@ function draw() {
       html +=
         "<div class='row'>" +
         "<div class='col-6'>" +
-        "<label class='settingName " +
+        "<label class='setting-label " +
         (typeof settingsJson[key] == "boolean" ? "labelFix" : "") +
         "' for='" +
         key +
@@ -73,13 +73,13 @@ function draw() {
 
       if (typeof settingsJson[key] == "boolean") {
         html +=
-          "<label class='checkBoxContainer'><input type='checkbox' name='" +
+          "<label class='check-box-container'><input type='checkbox' name='" +
           key +
           "' id='" +
           key +
           "' " +
           (settingsJson[key] ? "checked" : "") +
-          " ><span class='checkmark'></span></label>";
+          " ><span class='check-box'></span></label>";
       } else if (typeof settingsJson[key] == "number") {
         html +=
           "<input type='number' name='" +
@@ -117,7 +117,7 @@ function draw() {
         "</div>";
     }
   }
-  getE("settingsList").innerHTML = html;
+  getE("settings-list").innerHTML = html;
 }
 
 function save() {
@@ -125,14 +125,19 @@ function save() {
     title: "Save settings",
     buttonText: "Save",
     onclick: function () {
-      let newSettings = {
-        ap_ssid: getE("ap_ssid").value,
-        ap_password: getE("ap_password").value,
-        ap_channel: getE("ap_channel").value,
-        ap_hidden: getE("ap_hidden").checked,
-        ap_status: getE("ap_status").checked,
-        hostname: getE("hostname").value,
-      };
+      let newSettings = {};
+      for (var key in settingsJson) {
+        key = esc(key);
+        if (settingsDescJson.hasOwnProperty(key)) {
+          if (typeof settingsJson[key] == "boolean") {
+            newSettings[key] = getE(key).checked;
+          } else if (typeof settingsJson[key] == "number") {
+            newSettings[key] = parseInt(getE(key).value);
+          } else if (typeof settingsJson[key] == "string") {
+            newSettings[key] = getE(key).value.toString();
+          }
+        }
+      }
       apiCall({
         route: "/api/settings",
         method: "POST",

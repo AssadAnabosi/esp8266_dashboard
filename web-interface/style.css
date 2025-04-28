@@ -12,13 +12,6 @@
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 0 85.7% 97.3%;
   --border: 240 3.7% 15.9%;
-  --input: 240 3.7% 15.9%;
-  --ring: 142.4 71.8% 29.2%;
-  --chart-1: 220 70% 50%;
-  --chart-2: 160 60% 45%;
-  --chart-3: 30 80% 55%;
-  --chart-4: 280 65% 60%;
-  --chart-5: 340 75% 55%;
   --green: 72.3% 0.219 149.579;
   --orange: 70.5% 0.213 47.604;
   --red: 63.7% 0.237 25.331;
@@ -58,6 +51,14 @@ table {
   border-collapse: collapse;
 }
 
+tr {
+  height: 5rem;
+}
+
+tr[data-connected="true"] {
+  background: hsl(var(--card));
+}
+
 label {
   line-height: 38px;
 }
@@ -66,13 +67,10 @@ p {
   margin: 0.5em 0;
 }
 
-p.info {
+.info {
   margin: 1em 0;
 }
 
-.left {
-  float: left;
-}
 .right {
   float: right;
 }
@@ -80,16 +78,12 @@ p.info {
 .red {
   color: oklch(var(--red));
 }
+.green {
+  color: oklch(var(--green));
+}
 
 .centered {
   text-align: center;
-}
-.select {
-  width: 98px !important;
-  padding: 0 !important;
-}
-.selected {
-  background: #4974a9;
 }
 .status {
   width: 120px;
@@ -98,13 +92,14 @@ p.info {
 .labelFix {
   line-height: 44px;
 }
-.clickable {
-  cursor: pointer;
+
+#settings-list {
+  padding-bottom: 5rem;
 }
-.settingName {
+
+.setting-label {
   text-transform: capitalize;
   font-weight: bold;
-  /* text-decoration: underline; */
 }
 
 #status {
@@ -117,16 +112,9 @@ p.info {
   z-index: 99;
 }
 
-#closeError {
-  float: right;
-  color: #fff;
-  padding: 0px 10px;
-  cursor: pointer;
-}
-
 /* ===== CHECKBOX ===== */
 /* Customize the label (the container) */
-.checkBoxContainer {
+.check-box-container {
   display: block;
   position: relative;
   padding-left: 35px;
@@ -141,14 +129,14 @@ p.info {
 }
 
 /* Hide the browser's default checkbox */
-.checkBoxContainer input {
+.check-box-container input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
 }
 
 /* Create a custom checkbox */
-.checkmark {
+.check-box {
   position: absolute;
   top: 8px;
   left: 0;
@@ -158,19 +146,19 @@ p.info {
   border-radius: 4px;
 }
 
-/* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
+/* Create the check-box/indicator (hidden when not checked) */
+.check-box:after {
   content: "";
   position: absolute;
   display: none;
 }
 
-/* Show the checkmark when checked */
-.checkBoxContainer input:checked ~ .checkmark:after {
+/* Show the check-box when checked */
+.check-box-container input:checked ~ .check-box:after {
   display: block;
 }
 
-.checkBoxContainer .checkmark:after {
+.check-box-container .check-box:after {
   left: 10px;
   top: 7px;
   width: 4px;
@@ -182,28 +170,8 @@ p.info {
   transform: rotate(45deg);
 }
 
-/* ERROR */
-.hide {
-  display: none;
-}
-
-.show {
-  display: block !important;
-  animation-name: fadeIn;
-  animation-duration: 1s;
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
 hr {
-  background: #3e4146;
+  background: hsl(var(--border));
 }
 
 a {
@@ -220,29 +188,29 @@ li {
 }
 
 /* Meter */
-.meter_background {
+.meter-background {
   background: #42464d;
   width: 100%;
   word-break: normal;
   min-width: 100px;
 }
-.meter_foreground {
+.meter-foreground {
   color: hsl(var(--foreground));
   padding: 4px 0;
 }
-.meter_green {
+.meter-green {
   background-color: oklch(var(--green));
   /* background: #43b581; */
 }
-.meter_orange {
+.meter-orange {
   background-color: oklch(var(--orange));
   /* background: #faa61a; */
 }
-.meter_red {
+.meter-red {
   background-color: oklch(var(--red));
   /* background: #f04747; */
 }
-.meter_value {
+.meter-value {
   padding-left: 8px;
 }
 
@@ -265,53 +233,39 @@ th,
 td {
   padding: 10px 6px;
   text-align: left;
-  border-bottom: 1px solid #5d5d5d;
+  border-bottom: 1px solid hsl(var(--border));
 }
 
 @media screen and (max-width: 820px) {
-  #apTable .id,
-  #apTable .enc,
-  #apTable .mac,
-  #apTable .vendor,
-  #apTable .name,
-  .meter_background {
+  #ap-table .id,
+  #ap-table .enc,
+  #ap-table .mac,
+  #ap-table .vendor,
+  #ap-table .name,
+  .meter-background {
     min-width: 45px;
   }
 }
 
 nav {
-  display: block;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 1rem 3rem;
   background: hsl(var(--card));
   font-weight: bold;
-  padding: 0 10px;
 }
 
 nav a {
   color: inherit;
-  padding: 0 0.5em;
 }
 
-.menu {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  margin: 0 auto;
+nav div {
   display: flex;
-  flex-direction: row;
-  display: block;
-}
-
-.menu li {
-  margin: 10px 20px 10px 0;
-  display: inline-block;
-}
-
-.menu li:last-child {
-  float: right;
+  gap: 3rem;
 }
 
 /* Inputs and buttons */
-.upload-script,
 .button,
 button,
 input[type="submit"],
@@ -372,7 +326,7 @@ input[type="password"],
 textarea,
 select {
   height: 38px;
-  padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
+  padding: 6px 10px;
   background-color: hsl(var(--card));
   box-shadow: none;
   box-sizing: border-box;
@@ -384,15 +338,6 @@ select {
 
 input[type="text"] {
   width: 20em;
-}
-
-.setting {
-  width: 100% !important;
-  max-width: 284px !important;
-}
-
-input[type="file"] {
-  display: none;
 }
 
 /* ==== GRID SYSTEM ==== */
@@ -551,7 +496,7 @@ input[type="file"] {
   font-weight: bold;
 }
 
-.modal {
+.modal-container {
   position: fixed;
   z-index: 1000;
   left: 0;
@@ -562,7 +507,7 @@ input[type="file"] {
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.modal-content {
+.modal {
   background-color: hsl(var(--background));
   margin: 15% auto;
   padding: 25px 50px;
@@ -575,6 +520,10 @@ input[type="file"] {
 
 #modal-input {
   width: 100%;
+}
+
+.action-button button {
+  min-width: 130px;
 }
 
 .close {

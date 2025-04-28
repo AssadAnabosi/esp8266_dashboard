@@ -8,7 +8,7 @@
     />
     <meta name="theme-color" content="#0C0A09" />
 
-    <meta name="description" content="ESP8266 Wi-Fi Manager Dashboard" />
+    <meta name="description" content="ESP Wi-Fi Manager Dashboard" />
     <title>Dashboard</title>
 
     <link rel="stylesheet" type="text/css" href="style.css" />
@@ -18,12 +18,13 @@
 
   <body onload="checkConnection()">
     <nav>
-      <ul class="menu">
-        <li><a href="home">Home</a></li>
-        <li><a href="scan">Scan</a></li>
-        
-        <li><a href="settings">Settings</a></li>
-      </ul>
+      <div>
+        <a href="home">Home</a>
+        <a href="scan">Scan</a>
+      </div>
+      <div>
+        <a href="settings">Settings</a>
+      </div>
     </nav>
 
     <div id="status"></div>
@@ -32,38 +33,52 @@
       <div class="row">
         <div class="col-12">
           <h1 class="header">Scan</h1>
-          <button id="scan_ap" onclick="scan()">Scan APs</button>
+          <button id="scan-ap" onclick="scan()">Scan APs</button>
         </div>
       </div>
       <div class="row">
         <div class="col-12">
-          <p class="info">
+          <div class="info">
             <span class="red">INFO: </span>
             <ul>
-				<li>
-					Clicking connect will not respond back to the browser if you're not accessing the interface via its own access point.
-				</li>
-			</ul>
+              <li>
+                The network you are connected to is highlighted in the list.
+              </li>
+              <li>
+                While on smaller screens, rows become clickable buttons to
+                connect/disconnect from the network.
+              </li>
+              <li>
+                Clicking connect will not respond back to the browser if you're
+                not accessing the interface via its own access point.
+              </li>
+            </ul>
             <span
-              >In case of an unexpected error, please connect to the device own access point.</span
+              >In case of an unexpected error, please connect to the device own
+              access point.</span
             >
-          </p>
+          </div>
 
           <hr />
 
-          <h2><span>Access Points</span>: <span id="apNum"></span></h2>
-          <table id="apTable"></table>
+          <h2><span>Access Points</span>: <span id="ap-total"></span></h2>
+          <table id="ap-table"></table>
         </div>
       </div>
     </div>
-	<div id="network-modal" class="modal" style="display:none;">
-    <div class="modal-content">
-      <span id="close-modal" class="close">&times;</span>
-		  <h2 id="modal-title"></h2>
-		  <input type="password" id="modal-input" placeholder="Enter Password" style="display:none;" />
-		  <br />
-		  <button id="modal-button"></button>
-		</div>
-	  </div>
+    <div id="network-modal" class="modal-container" style="display: none">
+      <div class="modal">
+        <span id="close-modal" class="close">&times;</span>
+        <h2 id="modal-title"></h2>
+        <input
+          type="password"
+          id="modal-input"
+          placeholder="Enter Password"
+          style="display: none"
+        />
+        <br />
+        <button id="modal-button"></button>
+      </div>
+    </div>
   </body>
 </html>

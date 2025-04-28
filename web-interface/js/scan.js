@@ -2,7 +2,73 @@ var selectedSSID = "";
 var selectedEnc = "";
 var modalOpen = false;
 
-var access_points = [];
+var access_points = [
+  {
+    ssid: "SSID1",
+    channel: 1,
+    rssi: -50,
+    enc: "WPA2",
+    mac: "00:11:22:33:44:55",
+    connected: false,
+  },
+  {
+    ssid: "SSID1",
+    channel: 1,
+    rssi: -50,
+    enc: "WPA2",
+    mac: "00:11:22:33:44:55",
+    connected: true,
+  },
+  {
+    ssid: "SSID1",
+    channel: 1,
+    rssi: -50,
+    enc: "WPA2",
+    mac: "00:11:22:33:44:55",
+    connected: false,
+  },
+  {
+    ssid: "SSID1",
+    channel: 1,
+    rssi: -50,
+    enc: "WPA2",
+    mac: "00:11:22:33:44:55",
+    connected: false,
+  },
+];
+
+updateListeners = function () {
+  if (window.innerWidth <= 768) {
+    // get all elements with class 'network' and add onclick event
+    var networks = document.querySelectorAll(".network");
+    networks?.forEach(function (network) {
+      network.onclick = function () {
+        var connected = this.getAttribute("data-connected") === "true";
+        if (connected) {
+          disconnect();
+        } else {
+          var ssid = this.getAttribute("data-ssid");
+          connect(ssid);
+        }
+      };
+    });
+    var actionButtons = document.querySelectorAll(".action-button");
+    // hide action buttons
+    actionButtons?.forEach(function (button) {
+      button.style.display = "none";
+    });
+  } else {
+    // revert to default behavior
+    var networks = document.querySelectorAll(".network");
+    networks?.forEach(function (network) {
+      network.onclick = null;
+    });
+    var actionButtons = document.querySelectorAll(".action-button");
+    actionButtons?.forEach(function (button) {
+      button.style.display = null;
+    });
+  }
+};
 
 function drawScan() {
   var html;
@@ -16,7 +82,7 @@ function drawScan() {
   var connected;
 
   // Access Points
-  getE("apNum").innerHTML = access_points.length;
+  getE("ap-total").innerHTML = access_points.length;
   html =
     "<tr>" +
     "<th class='ssid'>SSID</th>" +
@@ -25,8 +91,12 @@ function drawScan() {
     "<th class='enc'></th>" +
     "<th class='lock'></th>" +
     "<th class='mac'>MAC</th>" +
-    "<th class='connect'></th>" +
+    "<th class='action-button'></th>" +
     "</tr>";
+
+  window.addEventListener("resize", function () {
+    updateListeners();
+  });
 
   for (var i = 0; i < access_points.length; i++) {
     ssid = access_points[i].ssid;
@@ -37,11 +107,11 @@ function drawScan() {
     connected = access_points[i].connected;
     width = parseInt(rssi) + 130;
 
-    if (width < 50) color = "meter_red";
-    else if (width < 70) color = "meter_orange";
-    else color = "meter_green";
+    if (width < 50) color = "meter-red";
+    else if (width < 70) color = "meter-orange";
+    else color = "meter-green";
     html +=
-      "<tr>" +
+      `<tr class='network' data-connected='${connected}' data-ssid='${ssid}'>` +
       "<td class='ssid'>" +
       esc(ssid) +
       "</td>" + // SSID
@@ -49,11 +119,11 @@ function drawScan() {
       esc(channel) +
       "</td>" + // Ch
       // RSSI
-      "<td class='rssi'><div class='meter_background'> <div class='meter_foreground " +
+      "<td class='rssi'><div class='meter-background'> <div class='meter-foreground " +
       color +
       "' style='width: " +
       width +
-      "%;'><div class='meter_value'>" +
+      "%;'><div class='meter-value'>" +
       rssi +
       "</div></div> </div></td>" +
       "<td class='enc'>" +
@@ -67,34 +137,37 @@ function drawScan() {
       "</td>"; // MAC
     // action button
     html += connected
-      ? "<td class='connect'><button class='red' onclick='disconnect()'>Disconnect</button></td>"
-      : "<td class='connect'><button class='red' onclick='connect(\"" +
+      ? `<td class='action-button' ><button class='red' onclick='disconnect("${ssid}")'>Disconnect</button></td>`
+      : "<td class='action-button' ><button class='green' onclick='connect(\"" +
         ssid +
         "\")'>Connect</button></td>";
     html += "</tr>";
   }
 
-  getE("apTable").innerHTML = html;
+  getE("ap-table").innerHTML = html;
 }
 
 function scan() {
-  getE("scan_ap").disabled = true;
+  getE("scan-ap").disabled = true;
+  drawScan();
+  updateListeners();
   apiCall({
     route: "/api/scan",
     callback: function (res) {
       access_points = JSON.parse(res);
       showMessage("connected");
       drawScan();
-      getE("scan_ap").disabled = false;
+      updateListeners();
+      getE("scan-ap").disabled = false;
     },
     timeout: 8000,
     onTimeout: function () {
       showMessage("ERROR: timeout scanning for wifi networks");
-      getE("scan_ap").disabled = false;
+      getE("scan-ap").disabled = false;
     },
     onError: function () {
       showMessage("ERROR: failed to scan for wifi networks");
-      getE("scan_ap").disabled = false;
+      getE("scan-ap").disabled = false;
     },
   });
 }
@@ -106,10 +179,10 @@ function connect(ssid) {
     return;
   }
 
-  selectedSSID = ssid;
-  selectedEnc = ap.enc;
+  const openNetworks = ["NONE", "OPEN"];
+  enc = ap.enc;
 
-  if (ap.enc === "NONE" || ap.enc === "OPEN") {
+  if (openNetworks.includes(enc)) {
     // No password needed
     sendConnectRequest(ssid, "");
   } else {
@@ -123,7 +196,7 @@ function connect(ssid) {
     getE("modal-button").onclick = function () {
       var password = getE("modal-input").value;
       getE("network-modal").style.display = "none";
-      sendConnectRequest(selectedSSID, password);
+      sendConnectRequest(ssid, password);
     };
   }
 }
@@ -167,6 +240,7 @@ function sendDisconnectRequest() {
 function handleModal({ title, input, buttonText }) {
   getE("modal-title").innerText = title;
   getE("modal-button").innerText = buttonText;
+  getE("modal-button").classList.remove("red");
   if (input) {
     getE("modal-input").style.display = "block";
     getE("modal-input").value = "";
@@ -196,6 +270,7 @@ function handleModal({ title, input, buttonText }) {
   } else {
     getE("modal-input").style.display = "none";
     getE("modal-button").disabled = false;
+    getE("modal-button").classList.add("red");
   }
 
   // Display the modal
@@ -215,9 +290,9 @@ function handleModal({ title, input, buttonText }) {
   };
 }
 
-function disconnect() {
+function disconnect(ssid) {
   handleModal({
-    title: "Are you sure you want to disconnect?",
+    title: "Are you sure you want to disconnect from " + ssid + "?",
     input: false,
     buttonText: "Disconnect",
   });
@@ -229,7 +304,7 @@ function disconnect() {
 }
 
 function buttonFunc() {
-  getE("scan_ap").disabled = false;
+  getE("scan-ap").disabled = false;
 }
 
 function load() {
