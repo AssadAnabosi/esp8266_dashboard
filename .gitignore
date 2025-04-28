@@ -1,1 +1,4 @@
-/esp-dashboard/data/*
+/esp8266/data/*
+/esp32/data/*
+
+/test

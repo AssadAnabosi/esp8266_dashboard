@@ -1,22 +1,24 @@
-# ESP8266 Wi-Fi Manager Dashboard
+# ESP8266/ESP32 Wi-Fi Manager Dashboard
 
-This project provides a simple web interface for the ESP8266, designed as a boilerplate to help you quickly get started with your IoT projects.
+This project provides a simple web interface for the ESP8266/ESP32, designed as a boilerplate to help you quickly get started with your IoT projects.
 Allowing the user to connect it to the ESP and configure what network to connect to.
+
+**_from this point on we will be referring to the ESP8266/ESP32 as ESP_**
 
 ## Features
 
-- **Scan and Connect**: Scan for available Wi-Fi networks and connect the ESP8266 to your chosen network.
-- **Access Point Mode**: Configure the ESP8266 to create its own Wi-Fi Access Point for direct connection.
+- **Scan and Connect**: Scan for available Wi-Fi networks and connect the ESP8266/ESP32 to your chosen network.
+- **Access Point Mode**: Configure the ESP8266/ESP32 to create its own Wi-Fi Access Point for direct connection.
 - **Auto-Reconnect**: Save Wi-Fi credentials to EEPROM, allowing the device to automatically reconnect to the last used network after reboot.
 - **Responsive Web Interface**: Built with HTML, CSS, and JavaScript, the interface is lightweight, user-friendly, and works across devices.
 
 ## Usage
 
-Once configured, you can access the ESP8266 either through your own Wi-Fi network or directly via its Access Point, providing flexibility for a variety of IoT applications.
+Once configured, you can access the ESP8266/ESP32 either through your own Wi-Fi network or directly via its Access Point, providing flexibility for a variety of IoT applications.
 
 ## Note
 
-This project is intended as a **boilerplate** to help you quickly set up Wi-Fi management for your ESP8266 and build upon it for your own IoT projects.
+This project is intended as a **boilerplate** to help you quickly set up Wi-Fi management for your ESP8266/ESP32 and build upon it for your own IoT projects.
 
 ## How to start
 
@@ -27,16 +29,20 @@ This project is intended as a **boilerplate** to help you quickly set up Wi-Fi m
 
 2. **Configure the IDE**
 
-- Arduino IDE, go to `File` > `Preferences` and add this URL to the `Additional Boards Manager URLs`: `https://arduino.esp8266.com/stable/package_esp8266com_index.json`
-- Now go to `Tools` > `Board` > `Boards Manager`, search esp8266, and install ESP8266 Boards
+- ESP8266
+  - Arduino IDE, go to `File` > `Preferences` and add this URL to the `Additional Boards Manager URLs`: `https://arduino.esp8266.com/stable/package_esp8266com_index.json`
+  - Now go to `Tools` > `Board` > `Boards Manager`, search esp8266, and install ESP8266 Boards
+- ESP32 (work in progress)
+  - Now go to `Tools` > `Board` > `Boards Manager`, search for ESP32 and install esp32 by Espressif Systems version 3.X
 - Select your board at `Tools` > `Board`
 - Plug in your board and select its COM port at `Tools` > `Port`
 - Optional: To reset/override previous settings, select `Tools` > `Erase Flash` > `All Flash Contents`
-- You will need [Arduino ESP8266 filesystem uploader tool](https://github.com/esp8266/arduino-esp8266fs-plugin) to load sketch data into the ESP. [Tutorial](https://randomnerdtutorials.com/arduino-ide-2-install-esp8266-littlefs/) (follow the instructions for Arduino IDE 2)
+- You will need [arduino-littlefs-upload filesystem uploader tool](https://github.com/esp8266/arduino-esp8266fs-plugin) to load sketch data into the ESP. [Tutorial](https://randomnerdtutorials.com/arduino-ide-2-install-esp8266-littlefs/) (follow the instructions for Arduino IDE 2)
 - Install the `ArduinoJson` library via `Sketch` > `Include Library` > `Manage Libraries...` and search for `ArduinoJson`. Install the version 7.
-- Run the `webMinifier` script to minify the HTML, CSS, and JS files. This will create a `data` folder with the minified files inside the `esp-dashboard` directory.
-- Upload the `data` folder to the ESP8266 using the ESP8266 filesystem uploader tool. as follows:
-  - Select `Ctrl` + `Shift` + `P`, then type `LittleFS to Pico/ESP8266/ESP32` and select it.
+- Run the `webMinifier` script to minify the HTML, CSS, and JS files. This will create a `data` folder with the minified files inside the esp directory.
+- Upload the `data` folder to the ESP using the filesystem uploader tool. as follows:
+  - Open the `*.ino` file in your Arduino IDE.
+  - Open the command palette by selecting `Ctrl` + `Shift` + `P`, then type `LittleFS Upload` and select `LittleFS to Pico/ESP8266/ESP32`.
   - Note: Make sure to close the serial monitor before uploading the files. If you don't, you will get an error message.
 
 ## Default settings

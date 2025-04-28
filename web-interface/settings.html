@@ -1,71 +1,73 @@
-<!Doctype html>
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=0.8, minimal-ui"
+    />
+    <meta name="theme-color" content="#0C0A09" />
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=0.8, minimal-ui">
-	<meta name="theme-color" content="#0C0A09">
+    <meta name="description" content="ESP Wi-Fi Manager Dashboard" />
+    <title>Dashboard</title>
 
-	<meta name="description" content="ESP8266 Wi-Fi Manager Dashboard">
-	<title>Dashboard</title>
-
-	<link rel="stylesheet" type="text/css" href="style.css">
-	<script src="js/site.js"></script>
-	<script src="js/settings.js"></script>
-</head>
-<body onload="checkConnection()">
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="js/site.js"></script>
+    <script src="js/settings.js"></script>
+  </head>
+  <body onload="checkConnection()">
     <nav>
-		<ul class="menu">
-            <li><a href="home">Home</a></li>
-			<li><a href="scan">Scan</a></li>
-			
-			<li><a href="settings">Settings</a></li>
-		</ul>
-	</nav>
+      <div>
+        <a href="home">Home</a>
+        <a href="scan">Scan</a>
+      </div>
+      <div>
+        <a href="settings">Settings</a>
+      </div>
+    </nav>
 
     <div id="status"></div>
 
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
-				<h1 class="header">Settings</h1>
-				<button onclick="reset()" class="red"
-					>Reset</button>
-				<button onclick="reboot()" class="red right">reboot</button>
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="header">Settings</h1>
+          <button onclick="reset()" class="red">Reset</button>
+          <button onclick="reboot()" class="red right">reboot</button>
 
-				<p class="info">
-					<span class="red">INFO:</span>
-					<ul>
-						<li>
-							Click save to make sure that your changes are applied. Device will reboot and page will reload in 30 seconds.
-						</li>
-						<li>
-							Click reload to load the current settings from the device.
-						</li>
-						<li>
-							Click reset to reset the device to factory settings.
-						</li>
-						<li>
-							Click reboot to restart the device.
-						</li>
-					</ul>
-					<span>In case of an unexpected error, please connect to the device own access point.</span>
-				</p>
-				<hr />
-				<button onclick="save()">save</button>
-				<button onclick="load()" class="right">reload</button>
-			</div>
-		</div>
+          <div class="info">
+            <span class="red">INFO:</span>
+            <ul>
+              <li>
+                Click save to make sure that your changes are applied. Device
+                will reboot and page will reload in 30 seconds.
+              </li>
+              <li>
+                Click reload to load the current settings from the device.
+              </li>
+              <li>Click reset to reset the device to factory settings.</li>
+              <li>Click reboot to restart the device.</li>
+            </ul>
+            <span
+              >In case of an unexpected error, please connect to the device own
+              access point.</span
+            >
+          </div>
+          <hr />
+          <button onclick="save()">save</button>
+          <button onclick="load()" class="right">reload</button>
+        </div>
+      </div>
 
-		<div id="settingsList"></div>
-	</div>
-	<div id="network-modal" class="modal" style="display:none;">
-	<div class="modal-content">
-		<span id="close-modal" class="close">&times;</span>
-			<h2 id="modal-title"></h2>
-			<br />
-			<button id="modal-button"></button>
-	</div>
-	</div>
-</body>
+      <div id="settings-list"></div>
+    </div>
+    <div id="network-modal" class="modal-container" style="display: none">
+      <div class="modal">
+        <span id="close-modal" class="close">&times;</span>
+        <h2 id="modal-title"></h2>
+        <br />
+        <button id="modal-button"></button>
+      </div>
+    </div>
+  </body>
 </html>

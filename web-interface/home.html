@@ -8,7 +8,7 @@
     />
     <meta name="theme-color" content="#0C0A09" />
 
-    <meta name="description" content="ESP8266 Wi-Fi Manager Dashboard" />
+    <meta name="description" content="ESP Wi-Fi Manager Dashboard" />
     <title>Dashboard</title>
 
     <link rel="stylesheet" type="text/css" href="style.css" />
@@ -18,11 +18,13 @@
 
   <body onload="checkConnection()">
     <nav>
-      <ul class="menu">
-        <li><a href="home">Home</a></li>
-        <li><a href="scan">Scan</a></li>
-        <li><a href="settings">Settings</a></li>
-      </ul>
+      <div>
+        <a href="home">Home</a>
+        <a href="scan">Scan</a>
+      </div>
+      <div>
+        <a href="settings">Settings</a>
+      </div>
     </nav>
 
     <div id="status"></div>
