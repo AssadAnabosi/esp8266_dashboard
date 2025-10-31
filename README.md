@@ -49,7 +49,7 @@ This project is intended as a **boilerplate** to help you quickly set up Wi-Fi m
 
 - **IP Address:** `192.168.4.1`
 - **SSID:** `ESP-Access-Point`
-- **Password:** `123456789`
+- **Password:** `12345678`
 - **Channel:** `6`
 - **Hidden:** `false`
 
